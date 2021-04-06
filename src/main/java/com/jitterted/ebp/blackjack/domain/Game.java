@@ -3,7 +3,6 @@ package com.jitterted.ebp.blackjack.domain;
 import com.jitterted.ebp.blackjack.adapter.in.console.ConsoleCard;
 import com.jitterted.ebp.blackjack.adapter.in.console.ConsoleGame;
 import com.jitterted.ebp.blackjack.adapter.in.console.ConsoleHand;
-import org.fusesource.jansi.Ansi;
 
 import java.util.Scanner;
 
@@ -15,32 +14,6 @@ public class Game {
 
     private final Hand dealerHand = new Hand();
     private final Hand playerHand = new Hand();
-
-    public static void main(String[] args) {
-        displayWelcomeScreen();
-        playGame();
-        resetScreen();
-    }
-
-    private static void resetScreen() {
-        System.out.println(ansi().reset());
-    }
-
-    private static void playGame() {
-        Game game = new Game();
-        game.initialDeal();
-        game.play();
-    }
-
-    private static void displayWelcomeScreen() {
-        System.out.println(ansi()
-            .bgBright(Ansi.Color.WHITE)
-            .eraseScreen()
-            .cursor(1, 1)
-            .fgGreen().a("Welcome to")
-            .fgRed().a(" Jitterted's")
-            .fgBlack().a(" BlackJack"));
-    }
 
     public Game() {
         deck = new Deck();
@@ -56,13 +29,13 @@ public class Game {
     }
 
     public void play() {
-        playerTurn(); //console
+        ConsoleGame.playerTurn(this); //console
 
         dealerTurn(); //core domain
 
         ConsoleGame.displayFinalGameState(this); //console
 
-        determineOutcome(); //mixed, printing outcome, but determining is core
+        System.out.println(determineOutcome().message());
     }
 
     private void dealRoundOfCards() {
@@ -85,18 +58,17 @@ public class Game {
         }
     }
 
-    private void determineOutcome() {
+    public GameOutcome determineOutcome() {
         if (playerHand.isBusted()) {
-            System.out.println("You Busted, so you lose.  💸");
+            return GameOutcome.PLAYER_BUSTED;
         } else if (dealerHand.isBusted()) {
-            System.out.println("Dealer went BUST, Player wins! Yay for you!! " +
-                "💵");
+            return GameOutcome.DEALER_BUSTED;
         } else if (playerHand.beats(dealerHand)) {
-            System.out.println("You beat the Dealer! 💵");
+            return GameOutcome.PLAYER_BEATS_DEALER;
         } else if (playerHand.pushes(dealerHand)) {
-            System.out.println("Push: Nobody wins, we'll call it even.");
+            return GameOutcome.PLAYER_PUSHES_DEALER;
         } else {
-            System.out.println("You lost to the Dealer. 💸");
+            return GameOutcome.PLAYER_LOSES;
         }
     }
 
@@ -110,50 +82,8 @@ public class Game {
         }
     }
 
-    private void playerTurn() {
-        // get Player's decision: hit until they stand, then they're done (or
-        // they go bust)
-
-        while (!playerHand.isBusted()) {
-            displayGameState();
-            String playerChoice = inputFromPlayer().toLowerCase();
-            if (playerChoice.startsWith("s")) {
-                break;
-            }
-            if (playerChoice.startsWith("h")) {
-                playerHits(); //domain: extractmethod called playerHits?
-                if (playerHand.isBusted()) {
-                    return;
-                }
-            } else {
-                System.out.println("You need to [H]it or [S]tand");
-            }
-        }
-    }
-
     public void playerHits() {
         playerHand.drawFrom(deck);
-    }
-
-    private String inputFromPlayer() {
-        System.out.println("[H]it or [S]tand?");
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextLine();
-    }
-
-    private void displayGameState() {
-        System.out.print(ansi().eraseScreen().cursor(1, 1));
-        System.out.println("Dealer has: ");
-        System.out.println(dealerHand.displayFirstCard()); // first card is
-        // Face Up
-
-        // second card is the hole card, which is hidden
-        ConsoleCard.displayBackOfCard();
-
-        System.out.println();
-        System.out.println("Player has: ");
-        ConsoleHand.cardsAsString(playerHand);
-        System.out.println(" (" + playerHand.displayValue() + ")");
     }
 
     public Hand playerHand() {

@@ -21,7 +21,6 @@ public class GameOutcomeTest {
         game.initialDeal(); //2 cards each
         game.playerHits();
 
-        assertThat(game.determineOutcomeString()).isEqualTo("You lost to the Dealer. 💸");
-
+        assertThat(game.determineOutcome()).isEqualTo(GameOutcome.PLAYER_LOSES);
     }
 }
