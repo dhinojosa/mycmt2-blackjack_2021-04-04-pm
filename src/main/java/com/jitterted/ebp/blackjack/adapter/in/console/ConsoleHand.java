@@ -1,4 +1,6 @@
-package com.jitterted.ebp.blackjack;
+package com.jitterted.ebp.blackjack.adapter.in.console;
+
+import com.jitterted.ebp.blackjack.domain.Hand;
 
 import java.util.stream.Collectors;
 

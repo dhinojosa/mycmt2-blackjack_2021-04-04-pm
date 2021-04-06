@@ -1,5 +1,7 @@
-package com.jitterted.ebp.blackjack;
+package com.jitterted.ebp.blackjack.adapter.in.console;
 
+import com.jitterted.ebp.blackjack.domain.Card;
+import com.jitterted.ebp.blackjack.domain.Rank;
 import org.fusesource.jansi.Ansi;
 
 import static org.fusesource.jansi.Ansi.ansi;
@@ -21,5 +23,19 @@ public class ConsoleCard {
             + String.join(ansi().cursorDown(1)
                                 .cursorLeft(11)
                                 .toString(), lines);
+    }
+
+    public static void displayBackOfCard() {
+        System.out.print(
+            ansi()
+                .cursorUp(7)
+                .cursorRight(12)
+                .a("┌─────────┐").cursorDown(1).cursorLeft(11)
+                .a("│░░░░░░░░░│").cursorDown(1).cursorLeft(11)
+                .a("│░ J I T ░│").cursorDown(1).cursorLeft(11)
+                .a("│░ T E R ░│").cursorDown(1).cursorLeft(11)
+                .a("│░ T E D ░│").cursorDown(1).cursorLeft(11)
+                .a("│░░░░░░░░░│").cursorDown(1).cursorLeft(11)
+                .a("└─────────┘"));
     }
 }

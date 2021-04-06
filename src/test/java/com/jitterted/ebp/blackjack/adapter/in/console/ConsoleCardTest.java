@@ -1,5 +1,9 @@
-package com.jitterted.ebp.blackjack;
+package com.jitterted.ebp.blackjack.adapter.in.console;
 
+import com.jitterted.ebp.blackjack.domain.Card;
+import com.jitterted.ebp.blackjack.domain.Rank;
+import com.jitterted.ebp.blackjack.domain.Suit;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -12,8 +16,8 @@ public class ConsoleCardTest {
     public void displayAsTenCard() throws Exception {
         Card tenCard = new Card(Suit.CLUBS, Rank.TEN);
 
-        assertThat(ConsoleCard.display(tenCard))
-            .isEqualTo("[30m┌─────────┐[1B[11D│10       │[1B[11D│         │[1B[11D│    ♣    │[1B[11D│         │[1B[11D│       10│[1B[11D└─────────┘");
+        Assertions.assertThat(ConsoleCard.display(tenCard))
+                  .isEqualTo("[30m┌─────────┐[1B[11D│10       │[1B[11D│         │[1B[11D│    ♣    │[1B[11D│         │[1B[11D│       10│[1B[11D└─────────┘");
     }
 
     @Test
