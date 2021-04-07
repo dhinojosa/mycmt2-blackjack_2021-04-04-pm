@@ -32,7 +32,7 @@ public class Hand {
         return handValue;
     }
 
-    String displayFirstCard() {
+    public String displayFirstCard() {
         return firstCard().display();
     }
 
@@ -52,7 +52,7 @@ public class Hand {
         cards.add(deck.draw());
     }
 
-    boolean isBusted() {
+    public boolean isBusted() {
         return value() > 21;
     }
 
