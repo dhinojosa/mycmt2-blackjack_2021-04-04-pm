@@ -16,6 +16,10 @@ public class DeckStub extends Deck {
         this.iterator = cards.iterator();
     }
 
+    public DeckStub(List<Card> cards) {
+        this.iterator = cards.iterator();
+    }
+
     @Override
     public Card draw() {
         return iterator.next();

@@ -7,8 +7,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest
 public class WebTest {
@@ -32,6 +31,21 @@ public class WebTest {
     @Test
     void testGameEndpointIs200Ok() throws Exception {
         mockMvc.perform(get("/game"))
+               .andExpect(status().isOk());
+    }
+
+    @Test
+    void postToHitEndpointRedirectsToGameView() throws Exception {
+        mockMvc.perform(post("/hit"))
+               .andExpect(status().is3xxRedirection())
+               .andExpect(redirectedUrl("/game"));
+    }
+
+    @Test
+    void testThatDoneShowsRelevantInformation() throws Exception {
+        mockMvc.perform(get("/done"))
+               .andExpect(model().attributeExists("outcome"))
+               .andExpect(model().attributeExists("gameView"))
                .andExpect(status().isOk());
     }
 }

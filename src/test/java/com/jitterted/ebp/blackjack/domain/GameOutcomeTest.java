@@ -35,6 +35,6 @@ public class GameOutcomeTest {
         Game game = new Game(deckStub);
         game.initialDeal();
 
-        assertThat(game.determineOutcome()).isEqualTo(GameOutcome.PLAYER_WINS_BLACKJACK);
+        assertThat(game.determineOutcome()).isEqualTo(GameOutcome.PLAYER_BEATS_DEALER);
     }
 }

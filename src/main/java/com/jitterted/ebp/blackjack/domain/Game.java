@@ -11,7 +11,7 @@ public class Game {
         deck = new Deck();
     }
 
-    protected Game(Deck deck) {
+    public Game(Deck deck) {
         this.deck = deck;
     }
 
