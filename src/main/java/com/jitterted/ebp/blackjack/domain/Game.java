@@ -62,7 +62,7 @@ public class Game {
 
         ConsoleGame.displayFinalGameState(this); //console
 
-        determineOutcome(); //mixed, printing outcome, but determining is core
+        System.out.println(determineOutcome().message()); //mixed, printing outcome, but determining is core
     }
 
     private void dealRoundOfCards() {
@@ -71,32 +71,17 @@ public class Game {
         dealerHand.drawFrom(deck);
     }
 
-    public String determineOutcomeString() {
+    public GameOutcome determineOutcome() {
         if (playerHand.isBusted()) {
-           return "You Busted, so you lose.  💸";
+            return GameOutcome.PLAYER_BUSTED;
         } else if (dealerHand.isBusted()) {
-           return "Dealer went BUST, Player wins! Yay for you!! 💵";
+            return GameOutcome.DEALER_BUSTED;
         } else if (playerHand.beats(dealerHand)) {
-           return "You beat the Dealer! 💵";
+            return GameOutcome.PLAYER_BEATS_DEALER;
         } else if (playerHand.pushes(dealerHand)) {
-            return "Push: Nobody wins, we'll call it even.";
+            return GameOutcome.PLAYER_PUSHES;
         } else {
-            return "You lost to the Dealer. 💸";
-        }
-    }
-
-    private void determineOutcome() {
-        if (playerHand.isBusted()) {
-            System.out.println("You Busted, so you lose.  💸");
-        } else if (dealerHand.isBusted()) {
-            System.out.println("Dealer went BUST, Player wins! Yay for you!! " +
-                "💵");
-        } else if (playerHand.beats(dealerHand)) {
-            System.out.println("You beat the Dealer! 💵");
-        } else if (playerHand.pushes(dealerHand)) {
-            System.out.println("Push: Nobody wins, we'll call it even.");
-        } else {
-            System.out.println("You lost to the Dealer. 💸");
+            return GameOutcome.PLAYER_LOSES;
         }
     }
 

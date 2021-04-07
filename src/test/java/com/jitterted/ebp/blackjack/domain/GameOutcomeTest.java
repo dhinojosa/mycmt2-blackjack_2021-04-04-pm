@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class GameOutcomeTest {
     @Test
-    void testDealerBeatsPlayer() {
+    void testPlayerLoses() {
 
         //Blackjack
         //1P. 2   ID
@@ -21,7 +21,6 @@ public class GameOutcomeTest {
         game.initialDeal(); //2 cards each
         game.playerHits();
 
-        assertThat(game.determineOutcomeString()).isEqualTo("You lost to the Dealer. 💸");
-
+        assertThat(game.determineOutcome()).isEqualTo(GameOutcome.PLAYER_LOSES);
     }
 }
