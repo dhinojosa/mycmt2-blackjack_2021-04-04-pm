@@ -50,7 +50,14 @@ public class BlackjackControllerTest {
 
     @Test
     void hitCommandDealsAdditionalCardToPlayer() {
-        Game game = new Game();
+        Deck deck = new DeckStub(List.of(
+            new Card(DIAMONDS, TEN), //p
+            new Card(HEARTS, TWO),   //d
+            new Card(DIAMONDS, KING),//p
+            new Card(CLUBS, THREE),  //d
+            new Card(DIAMONDS, ACE) //p after hit
+        ));
+        Game game = new Game(deck);
         BlackjackController blackjackController = new BlackjackController(game);
         blackjackController.startGame();
         String response = blackjackController.hitCommand();
