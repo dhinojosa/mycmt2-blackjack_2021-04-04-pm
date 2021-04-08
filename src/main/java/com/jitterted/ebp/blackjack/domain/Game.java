@@ -8,19 +8,23 @@ public class Game {
 
     private final Hand dealerHand = new Hand();
     private final Hand playerHand = new Hand();
+    private final GameMonitor gameMonitor;
 
     public Game() {
-        deck = new Deck();
+        this(new Deck());
+    }
+
+    public Game(GameMonitor gameMonitor) {
+        this(new Deck(), gameMonitor);
     }
 
     public Game(Deck deck) {
-        this.deck = deck;
-
+        this(deck, game -> {});
     }
 
     public Game(Deck deck, GameMonitor gameMonitor) {
         this.deck = deck;
-        //this.gameMonitor = gameMonitor;
+        this.gameMonitor = gameMonitor;
     }
 
     public void initialDeal() {
@@ -56,11 +60,12 @@ public class Game {
                 dealerHand.drawFrom(deck);
             }
         }
-        //gameMonitor.roundCompleted(this);
+        gameMonitor.roundCompleted(this);
     }
 
     public void playerHits() {
         playerHand.drawFrom(deck);
+        if (playerHand.isBusted()) gameMonitor.roundCompleted(this);
     }
 
     public Hand playerHand() {
@@ -69,5 +74,9 @@ public class Game {
 
     public Hand dealerHand() {
         return dealerHand;
+    }
+
+    public void playerStands() {
+        dealerTurn();
     }
 }

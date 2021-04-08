@@ -18,7 +18,7 @@ public class GameResultDto {
 
     public static GameResultDto of(Game game) {
         GameResultDto gameResultDto = new GameResultDto(
-            "Danno",
+            "Danno!",
             game.determineOutcome().toString(),
             String.valueOf(game.playerHand().displayValue()),
             String.valueOf(game.dealerHand().displayValue()));
