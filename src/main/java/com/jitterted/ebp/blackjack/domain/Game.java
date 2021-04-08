@@ -1,5 +1,7 @@
 package com.jitterted.ebp.blackjack.domain;
 
+import com.jitterted.ebp.blackjack.domain.port.GameMonitor;
+
 public class Game {
 
     private final Deck deck;
@@ -13,6 +15,12 @@ public class Game {
 
     public Game(Deck deck) {
         this.deck = deck;
+
+    }
+
+    public Game(Deck deck, GameMonitor gameMonitor) {
+        this.deck = deck;
+        //this.gameMonitor = gameMonitor;
     }
 
     public void initialDeal() {
@@ -48,6 +56,7 @@ public class Game {
                 dealerHand.drawFrom(deck);
             }
         }
+        //gameMonitor.roundCompleted(this);
     }
 
     public void playerHits() {
