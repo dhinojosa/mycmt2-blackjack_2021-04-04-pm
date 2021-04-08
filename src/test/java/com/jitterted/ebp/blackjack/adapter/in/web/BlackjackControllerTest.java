@@ -18,7 +18,7 @@ public class BlackjackControllerTest {
     @Test
     void startGameThenInitializeCardsThatAreDealt() {
         Game game = new Game();
-        BlackjackController blackjackController = new BlackjackController(game);
+        BlackjackController blackjackController = new BlackjackController(() -> game);
         blackjackController.startGame();
 
         assertThat(game.playerHand().cards()).hasSize(2);
@@ -35,7 +35,7 @@ public class BlackjackControllerTest {
             new Card(CLUBS, THREE)));
 
         Game game = new Game(deck);
-        BlackjackController blackjackController = new BlackjackController(game);
+        BlackjackController blackjackController = new BlackjackController(() -> game);
         blackjackController.startGame();
 
         Model model = new ConcurrentModel();
@@ -58,7 +58,7 @@ public class BlackjackControllerTest {
             new Card(DIAMONDS, ACE) //p after hit
         ));
         Game game = new Game(deck);
-        BlackjackController blackjackController = new BlackjackController(game);
+        BlackjackController blackjackController = new BlackjackController(() -> game);
         blackjackController.startGame();
         String response = blackjackController.hitCommand();
         assertThat(game.playerHand().cards()).hasSize(3);
@@ -76,7 +76,7 @@ public class BlackjackControllerTest {
         ));
 
         Game game = new Game(deck);
-        BlackjackController blackjackController = new BlackjackController(game);
+        BlackjackController blackjackController = new BlackjackController(() -> game);
         blackjackController.startGame();
 
         String response = blackjackController.hitCommand();

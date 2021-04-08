@@ -1,25 +1,26 @@
 package com.jitterted.ebp.blackjack.adapter.in.web;
 
 import com.jitterted.ebp.blackjack.domain.Game;
-import com.jitterted.ebp.blackjack.domain.GameOutcome;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.List;
+import java.util.function.Supplier;
 
 @Controller
 public class BlackjackController {
 
-    private Game game;
+    private Game game;//current Game
+    private final Supplier<Game> gameSupplier;
 
-    public BlackjackController(Game game) {
-        this.game = game;
+    public BlackjackController(Supplier<Game> gameSupplier) {
+        this.gameSupplier = gameSupplier;
     }
 
     @PostMapping("/start-game")
     public String startGame() {
+        game = gameSupplier.get();
         game.initialDeal();
         return "redirect:/game";
     }
