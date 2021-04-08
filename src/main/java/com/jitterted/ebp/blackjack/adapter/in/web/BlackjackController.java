@@ -43,8 +43,14 @@ public class BlackjackController {
 
     @GetMapping("/done")
     public String gameDone(Model model) {
+        game.dealerTurn();
         model.addAttribute("outcome", game.determineOutcome().message());
         model.addAttribute("gameView", GameView.of(game));
         return "done";
+    }
+
+    @PostMapping("/stand")
+    public String standCommand() {
+        return "redirect:/done";
     }
 }

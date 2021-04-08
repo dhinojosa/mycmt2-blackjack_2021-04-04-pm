@@ -47,4 +47,11 @@ public class WebTest {
                .andExpect(model().attributeExists("gameView"))
                .andExpect(status().isOk());
     }
+
+    @Test
+    void testWhenWeStandWeRedirectBackToTheGame() throws Exception {
+        mockMvc.perform(post("/stand"))
+               .andExpect(status().is3xxRedirection())
+               .andExpect(redirectedUrl("/done"));
+    }
 }

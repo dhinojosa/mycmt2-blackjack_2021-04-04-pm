@@ -1,9 +1,6 @@
 package com.jitterted.ebp.blackjack.adapter.in.web;
 
-import com.jitterted.ebp.blackjack.domain.Card;
-import com.jitterted.ebp.blackjack.domain.Deck;
-import com.jitterted.ebp.blackjack.domain.DeckStub;
-import com.jitterted.ebp.blackjack.domain.Game;
+import com.jitterted.ebp.blackjack.domain.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.Model;
@@ -81,6 +78,24 @@ public class BlackjackControllerTest {
 
         String response = blackjackController.hitCommand();
         assertThat(response).isEqualTo("redirect:/done");
+    }
+
+    @Test
+    void testStandWithNotBustedDeck() {
+        Deck deck = new DeckStub(List.of(
+            new Card(DIAMONDS, TEN),
+            new Card(HEARTS, TWO),
+            new Card(DIAMONDS, KING),
+            new Card(CLUBS, THREE),
+            new Card(CLUBS, TEN)
+        ));
+        Game game = new Game(deck);
+        BlackjackController blackjackController = new BlackjackController(() -> game);
+        blackjackController.startGame();
+
+        String page = blackjackController.standCommand();
+        assertThat(game.determineOutcome()).isEqualTo(GameOutcome.PLAYER_BEATS_DEALER);
+        assertThat(page).isEqualTo("redirect:/done");
     }
 }
 
